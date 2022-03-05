@@ -29,6 +29,7 @@ const Title = styled.h1`
 
 const Content = styled.div`
   display: flex;
+  margin-bottom: 72px;
   @media (max-width: 600px) {
     flex-direction: column;
   }

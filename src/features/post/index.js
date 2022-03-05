@@ -37,6 +37,7 @@ const Content = styled.div`
   display: grid;
   column-gap: 24px;
   row-gap: 36px;
+  margin-bottom: 72px;
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
