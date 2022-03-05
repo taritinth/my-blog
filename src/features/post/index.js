@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
 import styled from "styled-components/macro";
 import axios from "axios";
-import parse from "html-react-parser";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import Post from "../../common/Post";
+import Categories from "./Categories";
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,27 +33,6 @@ const SubTitle = styled.h3`
   font-weight: 300;
 `;
 
-const Categories = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  margin-top: 48px;
-  row-gap: 10px;
-  column-gap: 18px;
-`;
-
-const CategoriesBubble = styled.div`
-  padding: 6px 12px;
-  background-color: white;
-  border-radius: 18px;
-  border: 1px solid hsl(0deg 0% 10% / 20%);
-  cursor: pointer;
-  &:hover {
-    transition: 0.2s ease;
-    transform: translateY(-5px);
-  }
-  ${({ active }) => active && `background-color: hsl(0deg 0% 35% / 20%);`}
-`;
-
 const Content = styled.div`
   display: grid;
   column-gap: 24px;
@@ -62,37 +42,6 @@ const Content = styled.div`
   }
   @media (min-width: 960px) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-`;
-
-const Post = styled.div`
-  width: 100%;
-  /* box-shadow: 0 4px 7px hsl(0 0% 30% / 0.08), 0 9px 14px hsl(0 0% 30% / 0.09); */
-`;
-
-const ImageWrapper = styled.div`
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-`;
-
-const Image = styled.img`
-  object-fit: cover;
-`;
-
-const PostTitle = styled(Link)`
-  color: black;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1.5rem;
-  cursor: pointer;
-`;
-
-const PostExcerpt = styled.div`
-  color: gray;
-  margin-top: 12px;
-  a {
-    color: gray;
   }
 `;
 
@@ -156,40 +105,21 @@ const Posts = () => {
           <Title>Hey, Reader !</Title>
           <SubTitle>What kind of content do you like ?</SubTitle>
           {categories.length > 0 && (
-            <Categories>
-              <CategoriesBubble
-                active={!activeParams.length}
-                onClick={() => onCategoryChange("")}
-              >
-                All
-              </CategoriesBubble>
-              {categories.map((category, index) => (
-                <CategoriesBubble
-                  active={activeParams.includes(category.id.toString())}
-                  key={index}
-                  onClick={() => onCategoryChange(category.id)}
-                >
-                  {category.name}
-                </CategoriesBubble>
-              ))}
-            </Categories>
+            <Categories
+              categories={categories}
+              isActive={activeParams}
+              onCategoryChange={onCategoryChange}
+            />
           )}
         </Header>
         <Content>
           {posts.map((post, index) => (
-            <Post key={index}>
-              <Link to={`/posts/${post.id}`}>
-                <ImageWrapper>
-                  <Image src="https://fswd-wp.devnss.com/wp-content/uploads/2022/02/5a203da0-1347-3568-971c-4fc7a92f064c.png"></Image>
-                </ImageWrapper>
-              </Link>
-              <div style={{ marginTop: 18 }}>
-                <PostTitle to={`/posts/${post.id}`}>
-                  {post.title.rendered}
-                </PostTitle>
-              </div>
-              <PostExcerpt>{parse(post.excerpt.rendered)}</PostExcerpt>
-            </Post>
+            <Post
+              key={index}
+              id={post.id}
+              title={post.title.rendered}
+              excerpt={post.excerpt.rendered}
+            />
           ))}
         </Content>
       </Container>

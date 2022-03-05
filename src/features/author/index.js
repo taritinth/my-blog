@@ -1,8 +1,8 @@
 import axios from "axios";
-import parse from "html-react-parser";
 import { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import styled from "styled-components/macro";
+import Post from "../../common/Post";
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,39 +42,6 @@ const PostList = styled.div`
   margin-right: 24px;
   @media (max-width: 600px) {
     margin-right: 0px;
-  }
-`;
-
-const Post = styled.div`
-  width: 100%;
-  /* box-shadow: 0 4px 7px hsl(0 0% 30% / 0.08), 0 9px 14px hsl(0 0% 30% / 0.09); */
-`;
-
-const ImageWrapper = styled.div`
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  max-height: 415px;
-  object-fit: cover;
-`;
-
-const PostTitle = styled(Link)`
-  color: black;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1.5rem;
-  cursor: pointer;
-`;
-
-const PostExcerpt = styled.div`
-  color: gray;
-  margin-top: 12px;
-  a {
-    color: gray;
   }
 `;
 
@@ -138,7 +105,6 @@ const AuthorName = styled(Link)`
 
 const AuthorProfile = () => {
   const params = useParams();
-
   const [author, setAuthor] = useState(null);
   const [posts, setPosts] = useState([]);
 
@@ -186,19 +152,12 @@ const AuthorProfile = () => {
             <Content>
               <PostList>
                 {posts.map((post, index) => (
-                  <Post key={index}>
-                    <Link to={`/posts/${post.id}`}>
-                      <ImageWrapper>
-                        <Image src="https://fswd-wp.devnss.com/wp-content/uploads/2022/02/5a203da0-1347-3568-971c-4fc7a92f064c.png"></Image>
-                      </ImageWrapper>
-                    </Link>
-                    <div style={{ marginTop: 18 }}>
-                      <PostTitle to={`/posts/${post.id}`}>
-                        {post.title.rendered}
-                      </PostTitle>
-                    </div>
-                    <PostExcerpt>{parse(post.excerpt.rendered)}</PostExcerpt>
-                  </Post>
+                  <Post
+                    key={index}
+                    id={post.id}
+                    title={post.title.rendered}
+                    excerpt={post.excerpt.rendered}
+                  />
                 ))}
               </PostList>
               <PostAuthor>

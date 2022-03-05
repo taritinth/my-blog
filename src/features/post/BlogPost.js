@@ -213,7 +213,7 @@ const SubmitComment = styled.button`
   }
 `;
 
-const PostDetails = () => {
+const BlogPost = () => {
   const params = useParams();
   const [author, setAuthor] = useState(null);
   const [post, setPost] = useState(null);
@@ -334,8 +334,7 @@ const PostDetails = () => {
                   {author.name}
                 </AuthorLink>{" "}
                 on {getDateText(post.date)}
-              </PostInfo>{" "}
-              {/* February 10, 2022 */}
+              </PostInfo>
             </Header>
             <Content>
               <PostContent>{parse(post.content.rendered)}</PostContent>
@@ -405,4 +404,4 @@ const PostDetails = () => {
   );
 };
 
-export default PostDetails;
+export default BlogPost;
