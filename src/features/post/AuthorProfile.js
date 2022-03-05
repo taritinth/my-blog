@@ -1,6 +1,6 @@
 import axios from "axios";
 import parse from "html-react-parser";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import styled from "styled-components/macro";
 
@@ -58,7 +58,7 @@ const ImageWrapper = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  max-height: 400px;
+  max-height: 415px;
   object-fit: cover;
 `;
 
@@ -121,20 +121,20 @@ const AuthorName = styled(Link)`
   margin-top: 8px;
 `;
 
-const ViewProfile = styled(Link)`
-  color: inherit;
-  text-decoration: none;
-  margin-top: 12px;
-  padding: 6px 12px;
-  background-color: white;
-  border-radius: 18px;
-  border: 1px solid hsl(0deg 0% 10% / 20%);
-  width: fit-content;
-  cursor: pointer;
-  &:hover {
-    background-color: hsl(0deg 0% 35% / 20%);
-  }
-`;
+// const ViewProfile = styled(Link)`
+//   color: inherit;
+//   text-decoration: none;
+//   margin-top: 12px;
+//   padding: 6px 12px;
+//   background-color: white;
+//   border-radius: 18px;
+//   border: 1px solid hsl(0deg 0% 10% / 20%);
+//   width: fit-content;
+//   cursor: pointer;
+//   &:hover {
+//     background-color: hsl(0deg 0% 35% / 20%);
+//   }
+// `;
 
 const AuthorProfile = () => {
   const params = useParams();
@@ -142,12 +142,7 @@ const AuthorProfile = () => {
   const [author, setAuthor] = useState(null);
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    getAuthor();
-    getPosts();
-  }, []);
-
-  const getAuthor = async () => {
+  const getAuthor = useCallback(async () => {
     if (params.authorId) {
       const response = await axios.get(
         `https://fswd-wp.devnss.com/wp-json/wp/v2/users/${params.authorId}`,
@@ -157,13 +152,13 @@ const AuthorProfile = () => {
           },
         }
       );
-      if (response.data?.status != "404") {
+      if (response.data?.status !== "404") {
         setAuthor(response.data);
       }
     }
-  };
+  }, [params]);
 
-  const getPosts = async () => {
+  const getPosts = useCallback(async () => {
     const response = await axios.get(
       `https://fswd-wp.devnss.com/wp-json/wp/v2/posts?author=${params.authorId}`,
       {
@@ -173,7 +168,12 @@ const AuthorProfile = () => {
       }
     );
     setPosts(response.data);
-  };
+  }, [params]);
+
+  useEffect(() => {
+    getAuthor();
+    getPosts();
+  }, [getAuthor, getPosts]);
 
   return (
     <Wrapper>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import parse from "html-react-parser";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import styled from "styled-components/macro";
 
@@ -188,13 +188,13 @@ const CommentTextArea = styled.textarea`
   background-color: hsl(0deg 0% 10% / 2.5%);
 `;
 
-const CommentAuthorTextfield = styled.input`
-  margin: 12px 0;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid hsl(0deg 0% 10% / 10%);
-  background-color: hsl(0deg 0% 10% / 2.5%);
-`;
+// const CommentAuthorTextfield = styled.input`
+//   margin: 12px 0;
+//   padding: 12px;
+//   border-radius: 12px;
+//   border: 1px solid hsl(0deg 0% 10% / 10%);
+//   background-color: hsl(0deg 0% 10% / 2.5%);
+// `;
 
 const SubmitComment = styled.button`
   margin-top: 24px;
@@ -221,16 +221,7 @@ const PostDetails = () => {
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    getPost();
-  }, []);
-
-  useEffect(() => {
-    getAuthor();
-    getComments();
-  }, [post]);
-
-  const getPost = async () => {
+  const getPost = useCallback(async () => {
     const response = await axios.get(
       `https://fswd-wp.devnss.com/wp-json/wp/v2/posts/${params.postId}`,
       {
@@ -240,12 +231,12 @@ const PostDetails = () => {
       }
     );
 
-    if (response.data?.status != "404") {
+    if (response.data?.status !== "404") {
       setPost(response.data);
     }
-  };
+  }, [params]);
 
-  const getAuthor = async () => {
+  const getAuthor = useCallback(async () => {
     if (post) {
       const response = await axios.get(
         `https://fswd-wp.devnss.com/wp-json/wp/v2/users/${post.author}`,
@@ -255,13 +246,13 @@ const PostDetails = () => {
           },
         }
       );
-      if (response.data?.status != "404") {
+      if (response.data?.status !== "404") {
         setAuthor(response.data);
       }
     }
-  };
+  }, [post]);
 
-  const getComments = async () => {
+  const getComments = useCallback(async () => {
     if (post) {
       const response = await axios.get(
         `https://fswd-wp.devnss.com/wp-json/wp/v2/comments?post=${post.id}`,
@@ -271,11 +262,11 @@ const PostDetails = () => {
           },
         }
       );
-      if (response.data?.status != "404") {
+      if (response.data?.status !== "404") {
         setComments(response.data);
       }
     }
-  };
+  }, [post]);
 
   const postComment = async () => {
     try {
@@ -320,6 +311,15 @@ const PostDetails = () => {
       return "Invalid Date";
     }
   };
+
+  useEffect(() => {
+    getPost();
+  }, [getPost]);
+
+  useEffect(() => {
+    getAuthor();
+    getComments();
+  }, [post, getAuthor, getComments]);
 
   return (
     <Wrapper>
