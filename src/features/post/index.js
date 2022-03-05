@@ -4,9 +4,9 @@ import axios from "axios";
 import parse from "html-react-parser";
 import { Link, useSearchParams } from "react-router-dom";
 
-const Header = styled.div`
-  padding-top: 56px;
-  margin-bottom: 48px;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Container = styled.div`
@@ -18,12 +18,18 @@ const Container = styled.div`
   }
 `;
 
+const Header = styled.div`
+  padding-top: 56px;
+  margin-bottom: 48px;
+`;
+
 const Title = styled.h1`
-  font-size: 48px;
+  font-size: 3rem;
 `;
 
 const SubTitle = styled.h3`
-  font-size: 24px;
+  font-size: 1.5rem;
+  font-weight: 300;
 `;
 
 const Categories = styled.div`
@@ -44,6 +50,7 @@ const CategoriesBubble = styled.div`
     transition: 0.2s ease;
     transform: translateY(-5px);
   }
+  ${({ active }) => active && `background-color: hsl(0deg 0% 35% / 20%);`}
 `;
 
 const Content = styled.div`
@@ -77,8 +84,7 @@ const PostTitle = styled(Link)`
   color: black;
   text-decoration: none;
   font-weight: 500;
-  font-size: 22px;
-  margin-top: 24px;
+  font-size: 1.5rem;
   cursor: pointer;
 `;
 
@@ -98,19 +104,30 @@ const Posts = () => {
   const [category, setCategory] = useState(
     searchParams.get("categories") ?? ""
   );
+  let activeParams = searchParams.getAll("categories");
 
   const getPosts = useCallback(async () => {
     const response = await axios.get(
-      `https://c602db66-2aea-4297-ba3f-1e4ec687b9bc.mock.pstmn.io/wp-json/wp/v2/posts?${
+      `https://fswd-wp.devnss.com/wp-json/wp/v2/posts?${
         category ? searchParams : ""
-      }`
+      }`,
+      {
+        headers: {
+          Authorization: "Basic ZnN3ZDpmc3dkLWNtcw==",
+        },
+      }
     );
     setPosts(response.data);
   }, [category, searchParams]);
 
   const getCategories = async () => {
     const response = await axios.get(
-      "https://c602db66-2aea-4297-ba3f-1e4ec687b9bc.mock.pstmn.io/wp-json/wp/v2/categories"
+      "https://fswd-wp.devnss.com/wp-json/wp/v2/categories",
+      {
+        headers: {
+          Authorization: "Basic ZnN3ZDpmc3dkLWNtcw==",
+        },
+      }
     );
     setCategories(response.data);
   };
@@ -133,42 +150,50 @@ const Posts = () => {
   };
 
   return (
-    <Container>
-      <Header>
-        <Title>Hey, Reader !</Title>
-        <SubTitle>What kind of content do you like ?</SubTitle>
-        <Categories>
-          <CategoriesBubble onClick={() => onCategoryChange("")}>
-            All
-          </CategoriesBubble>
-          {categories.map((category, index) => (
-            <CategoriesBubble
-              key={index}
-              onClick={() => onCategoryChange(category.id)}
-            >
-              {category.name}
-            </CategoriesBubble>
+    <Wrapper>
+      <Container>
+        <Header>
+          <Title>Hey, Reader !</Title>
+          <SubTitle>What kind of content do you like ?</SubTitle>
+          {categories.length > 0 && (
+            <Categories>
+              <CategoriesBubble
+                active={!activeParams.length}
+                onClick={() => onCategoryChange("")}
+              >
+                All
+              </CategoriesBubble>
+              {categories.map((category, index) => (
+                <CategoriesBubble
+                  active={activeParams.includes(category.id.toString())}
+                  key={index}
+                  onClick={() => onCategoryChange(category.id)}
+                >
+                  {category.name}
+                </CategoriesBubble>
+              ))}
+            </Categories>
+          )}
+        </Header>
+        <Content>
+          {posts.map((post, index) => (
+            <Post key={index}>
+              <Link to={`/posts/${post.id}`}>
+                <ImageWrapper>
+                  <Image src="https://fswd-wp.devnss.com/wp-content/uploads/2022/02/5a203da0-1347-3568-971c-4fc7a92f064c.png"></Image>
+                </ImageWrapper>
+              </Link>
+              <div style={{ marginTop: 18 }}>
+                <PostTitle to={`/posts/${post.id}`}>
+                  {post.title.rendered}
+                </PostTitle>
+              </div>
+              <PostExcerpt>{parse(post.excerpt.rendered)}</PostExcerpt>
+            </Post>
           ))}
-        </Categories>
-      </Header>
-      <Content>
-        {posts.map((post, index) => (
-          <Post key={index}>
-            <Link to={`/posts/${post.id}`}>
-              <ImageWrapper>
-                <Image src="https://fswd-wp.devnss.com/wp-content/uploads/2022/02/5a203da0-1347-3568-971c-4fc7a92f064c.png"></Image>
-              </ImageWrapper>
-            </Link>
-            <div style={{ marginTop: 18 }}>
-              <PostTitle to={`/posts/${post.id}`}>
-                {post.title.rendered}
-              </PostTitle>
-            </div>
-            <PostExcerpt>{parse(post.excerpt.rendered)}</PostExcerpt>
-          </Post>
-        ))}
-      </Content>
-    </Container>
+        </Content>
+      </Container>
+    </Wrapper>
   );
 };
 
