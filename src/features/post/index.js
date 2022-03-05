@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import styled from "styled-components/macro";
 import axios from "axios";
 import parse from "html-react-parser";
@@ -99,9 +99,25 @@ const Posts = () => {
     searchParams.get("categories") ?? ""
   );
 
+  const getPosts = useCallback(async () => {
+    const response = await axios.get(
+      `https://c602db66-2aea-4297-ba3f-1e4ec687b9bc.mock.pstmn.io/wp-json/wp/v2/posts?${
+        category ? searchParams : ""
+      }`
+    );
+    setPosts(response.data);
+  }, [category, searchParams]);
+
+  const getCategories = async () => {
+    const response = await axios.get(
+      "https://c602db66-2aea-4297-ba3f-1e4ec687b9bc.mock.pstmn.io/wp-json/wp/v2/categories"
+    );
+    setCategories(response.data);
+  };
+
   useEffect(() => {
     getPosts();
-  }, [category]);
+  }, [category, getPosts]);
 
   useEffect(() => {
     getCategories();
@@ -114,22 +130,6 @@ const Posts = () => {
     } else {
       setSearchParams({});
     }
-  };
-
-  const getCategories = async () => {
-    const response = await axios.get(
-      "https://c602db66-2aea-4297-ba3f-1e4ec687b9bc.mock.pstmn.io/wp-json/wp/v2/categories"
-    );
-    setCategories(response.data);
-  };
-
-  const getPosts = async () => {
-    const response = await axios.get(
-      `https://c602db66-2aea-4297-ba3f-1e4ec687b9bc.mock.pstmn.io/wp-json/wp/v2/posts?${
-        category ? searchParams : ""
-      }`
-    );
-    setPosts(response.data);
   };
 
   return (
@@ -159,7 +159,7 @@ const Posts = () => {
                 <Image src="https://fswd-wp.devnss.com/wp-content/uploads/2022/02/5a203da0-1347-3568-971c-4fc7a92f064c.png"></Image>
               </ImageWrapper>
             </Link>
-            <div style={{ "margin-top": "18px" }}>
+            <div style={{ marginTop: 18 }}>
               <PostTitle to={`/posts/${post.id}`}>
                 {post.title.rendered}
               </PostTitle>

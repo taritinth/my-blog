@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import styled from "styled-components";
 import Posts from "./features/post";
 import PostDetails from "./features/post/PostDetails";
 // const Navbar = styled.nav`
