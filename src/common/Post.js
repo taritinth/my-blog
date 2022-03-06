@@ -20,7 +20,7 @@ const Image = styled.img`
 `;
 
 const PostTitle = styled(Link)`
-  color: black;
+  color: hsl(0deg 0% 0%);
   text-decoration: none;
   font-weight: 500;
   font-size: 1.5rem;
@@ -38,6 +38,7 @@ const PostExcerpt = styled.div`
 const TitleWrapper = styled.div`
   margin-top: 18px;
 `;
+
 const Wrapper = ({ id, title, excerpt }) => {
   return (
     <Post>
