@@ -2,7 +2,7 @@ import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 import parse from "html-react-parser";
 
-const Post = styled.div`
+const PostWrapper = styled.div`
   width: 100%;
   /* box-shadow: 0 4px 7px hsl(0 0% 30% / 0.08), 0 9px 14px hsl(0 0% 30% / 0.09); */
 `;
@@ -39,9 +39,9 @@ const TitleWrapper = styled.div`
   margin-top: 18px;
 `;
 
-const Wrapper = ({ id, title, excerpt }) => {
+const Post = ({ id, title, excerpt }) => {
   return (
-    <Post>
+    <PostWrapper>
       <Link to={`/posts/${id}`}>
         <ImageWrapper>
           <Image src="https://fswd-wp.devnss.com/wp-content/uploads/2022/02/5a203da0-1347-3568-971c-4fc7a92f064c.png"></Image>
@@ -51,8 +51,8 @@ const Wrapper = ({ id, title, excerpt }) => {
         <PostTitle to={`/posts/${id}`}>{title}</PostTitle>
       </TitleWrapper>
       <PostExcerpt>{parse(excerpt)}</PostExcerpt>
-    </Post>
+    </PostWrapper>
   );
 };
 
-export default Wrapper;
+export default Post;

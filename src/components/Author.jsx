@@ -41,7 +41,7 @@ const ViewProfile = styled(Link)`
   }
 `;
 
-const Wrapper = ({ author, viewProfile }) => {
+const Author = ({ author, viewProfile }) => {
   return (
     <>
       <AuthorImageWrapper>
@@ -57,4 +57,4 @@ const Wrapper = ({ author, viewProfile }) => {
   );
 };
 
-export default Wrapper;
+export default Author;
