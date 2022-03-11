@@ -138,7 +138,11 @@ const PostPage = () => {
     }
   }, [post]);
 
-  const onSubmitComment = async () => {
+  const handleCommentChange = (value) => {
+    setReply(value);
+  };
+
+  const handleSubmitComment = async () => {
     try {
       if (reply) {
         setLoading(true);
@@ -210,8 +214,8 @@ const PostPage = () => {
                 ))}
               <ReplyBox
                 commentValue={reply}
-                handleSubmit={onSubmitComment}
-                handleCommentChange={setReply}
+                onSubmitComment={handleSubmitComment}
+                onCommentChange={handleCommentChange}
                 loading={loading}
               />
             </Comments>

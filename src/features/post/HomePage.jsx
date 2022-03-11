@@ -91,7 +91,7 @@ const HomePage = () => {
     getCategories();
   }, []);
 
-  const onCategoryChange = (categoryId) => {
+  const handleCategoryChange = (categoryId) => {
     setCategory(categoryId);
     if (categoryId) {
       setSearchParams({ categories: categoryId });
@@ -110,7 +110,7 @@ const HomePage = () => {
             <Categories
               categories={categories}
               isActive={activeParams}
-              onCategoryChange={onCategoryChange}
+              onCategoryChange={handleCategoryChange}
             />
           )}
         </Header>

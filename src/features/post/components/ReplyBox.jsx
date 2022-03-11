@@ -51,8 +51,8 @@ const SubmitComment = styled.button`
 
 const ReplyBox = ({
   commentValue,
-  handleCommentChange,
-  handleSubmit,
+  onCommentChange,
+  onSubmitComment,
   loading,
 }) => {
   return (
@@ -60,10 +60,13 @@ const ReplyBox = ({
       <LeaveReply>Leave a reply</LeaveReply>
       <CommentTextArea
         value={commentValue}
-        onChange={(e) => handleCommentChange(e.target.value)}
+        onChange={(e) => onCommentChange(e.target.value)}
         placeholder="Comment"
       />
-      <SubmitComment onClick={handleSubmit} disabled={loading || !commentValue}>
+      <SubmitComment
+        onClick={onSubmitComment}
+        disabled={loading || !commentValue}
+      >
         Post Comment
       </SubmitComment>
     </ReplyBoxWrapper>
