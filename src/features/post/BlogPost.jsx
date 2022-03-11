@@ -6,6 +6,7 @@ import styled from "styled-components/macro";
 import Author from "../../components/Author";
 import Comment from "./components/Comment";
 import ReplyBox from "./components/ReplyBox";
+import { getDateText } from "../../utils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -173,22 +174,6 @@ const BlogPost = () => {
       console.log(err);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const getDateText = (date) => {
-    if (date) {
-      date = new Date(date);
-      let options = {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      };
-      return date.toLocaleString("en-US", options);
-    } else {
-      return "Invalid Date";
     }
   };
 
