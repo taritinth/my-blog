@@ -1,12 +1,12 @@
 import axios from "axios";
 import parse from "html-react-parser";
 import { useState, useEffect, useCallback } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components/macro";
 import Author from "../../components/Author";
 import Comment from "./components/Comment";
 import ReplyBox from "./components/ReplyBox";
-import { getDateText } from "../../utils";
+import PostInfo from "./components/PostInfo";
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,17 +29,6 @@ const Header = styled.div`
 
 const Title = styled.h1`
   font-size: 3rem;
-`;
-
-const PostInfo = styled.h3`
-  font-size: 1.25rem;
-  font-weight: 300;
-`;
-
-const AuthorLink = styled(Link)`
-  color: hsl(0deg 0% 0%);
-  font-weight: 500;
-  text-decoration: none;
 `;
 
 const Content = styled.div`
@@ -94,7 +83,7 @@ const CommentHeader = styled.h1`
   font-size: 2rem;
 `;
 
-const BlogPost = () => {
+const Post = () => {
   const params = useParams();
   const [author, setAuthor] = useState(null);
   const [post, setPost] = useState(null);
@@ -193,13 +182,11 @@ const BlogPost = () => {
           <>
             <Header>
               <Title>{post.title.rendered}</Title>
-              <PostInfo>
-                Published by{" "}
-                <AuthorLink to={`/authors/${author.id}`}>
-                  {author.name}
-                </AuthorLink>{" "}
-                on {getDateText(post.date)}
-              </PostInfo>
+              <PostInfo
+                authorId={author.id}
+                authorName={author.name}
+                date={post.date}
+              />
             </Header>
             <Content>
               <PostContent>{parse(post.content.rendered)}</PostContent>
@@ -235,4 +222,4 @@ const BlogPost = () => {
   );
 };
 
-export default BlogPost;
+export default Post;
