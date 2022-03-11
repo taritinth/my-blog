@@ -49,7 +49,7 @@ const SubmitComment = styled.button`
   }
 `;
 
-const Wrapper = ({
+const ReplyBox = ({
   commentValue,
   handleCommentChange,
   handleSubmit,
@@ -70,4 +70,4 @@ const Wrapper = ({
   );
 };
 
-export default Wrapper;
+export default ReplyBox;

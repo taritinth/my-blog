@@ -44,7 +44,7 @@ const Content = styled.div`
   padding: 24px 0;
 `;
 
-const Wrapper = ({ authorName, authorAvatar, content, date }) => {
+const Comment = ({ authorName, authorAvatar, content, date }) => {
   return (
     <CommentWrapper>
       <AuthorWrapper>
@@ -61,4 +61,4 @@ const Wrapper = ({ authorName, authorAvatar, content, date }) => {
   );
 };
 
-export default Wrapper;
+export default Comment;
