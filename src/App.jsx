@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Posts from "./features/post";
-import BlogPost from "./features/post/BlogPost";
+import PostContent from "./features/post/PostContent";
 import AuthorProfile from "./features/author";
 
 // const Navbar = styled.nav`
@@ -15,7 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Posts />} />
-          <Route path="/posts/:postId" element={<BlogPost />} />
+          <Route path="/posts/:postId" element={<PostContent />} />
           <Route path="/authors/:authorId" element={<AuthorProfile />} />
         </Routes>
       </BrowserRouter>
