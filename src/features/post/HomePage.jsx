@@ -47,7 +47,7 @@ const Content = styled.div`
   }
 `;
 
-const Posts = () => {
+const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [categories, setCategories] = useState([]);
   const [posts, setPosts] = useState([]);
@@ -129,4 +129,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default HomePage;

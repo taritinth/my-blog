@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Posts from "./features/post";
-import PostContent from "./features/post/PostContent";
-import AuthorProfile from "./features/author";
+import HomePage from "./features/post/HomePage";
+import PostPage from "./features/post/PostPage";
+import AuthorPage from "./features/author/AuthorPage";
 
 // const Navbar = styled.nav`
 //   background-color: white;
@@ -14,9 +14,9 @@ function App() {
       {/* <Navbar /> */}
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Posts />} />
-          <Route path="/posts/:postId" element={<PostContent />} />
-          <Route path="/authors/:authorId" element={<AuthorProfile />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/posts/:postId" element={<PostPage />} />
+          <Route path="/authors/:authorId" element={<AuthorPage />} />
         </Routes>
       </BrowserRouter>
     </>

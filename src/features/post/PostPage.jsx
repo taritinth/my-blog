@@ -83,7 +83,7 @@ const CommentHeader = styled.h1`
   font-size: 2rem;
 `;
 
-const Post = () => {
+const PostPage = () => {
   const params = useParams();
   const [author, setAuthor] = useState(null);
   const [post, setPost] = useState(null);
@@ -222,4 +222,4 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default PostPage;

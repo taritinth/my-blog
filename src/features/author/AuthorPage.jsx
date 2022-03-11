@@ -64,7 +64,7 @@ const PostAuthor = styled.div`
   }
 `;
 
-const AuthorProfile = () => {
+const AuthorPage = () => {
   const params = useParams();
   const [author, setAuthor] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -132,4 +132,4 @@ const AuthorProfile = () => {
   );
 };
 
-export default AuthorProfile;
+export default AuthorPage;
