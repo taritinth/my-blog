@@ -27,10 +27,6 @@ const Header = styled.div`
   margin-bottom: 48px;
 `;
 
-const Title = styled.h1`
-  font-size: 3rem;
-`;
-
 const Content = styled.div`
   display: flex;
   @media (max-width: 600px) {
@@ -185,8 +181,8 @@ const PostPage = () => {
         {post && author && (
           <>
             <Header>
-              <Title>{post.title.rendered}</Title>
               <PostInfo
+                title={post.title.rendered}
                 authorId={author.id}
                 authorName={author.name}
                 date={post.date}
