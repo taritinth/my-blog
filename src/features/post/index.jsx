@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import styled from "styled-components/macro";
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
-import Post from "../../common/Post";
-import Categories from "./Categories";
+
+import Post from "../../components/Post";
+import Categories from "./components/Categories";
 
 const Wrapper = styled.div`
   display: flex;
