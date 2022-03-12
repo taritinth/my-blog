@@ -1,6 +1,6 @@
 import styled from "styled-components/macro";
 
-const CategoriesWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   margin-top: 48px;
@@ -8,7 +8,7 @@ const CategoriesWrapper = styled.div`
   column-gap: 18px;
 `;
 
-const CategoriesBubble = styled.div`
+const Bubble = styled.div`
   padding: 6px 12px;
   background-color: white;
   border-radius: 18px;
@@ -23,25 +23,22 @@ const CategoriesBubble = styled.div`
 
 const Categories = ({ categories, isActive, onCategoryChange }) => {
   let items = categories.map((category, index) => (
-    <CategoriesBubble
+    <Bubble
       active={isActive.includes(category.id.toString())}
       key={index}
       onClick={() => onCategoryChange(category.id)}
     >
       {category.name}
-    </CategoriesBubble>
+    </Bubble>
   ));
 
   return (
-    <CategoriesWrapper>
-      <CategoriesBubble
-        active={!isActive.length}
-        onClick={() => onCategoryChange("")}
-      >
+    <Wrapper>
+      <Bubble active={!isActive.length} onClick={() => onCategoryChange("")}>
         All
-      </CategoriesBubble>
+      </Bubble>
       {items}
-    </CategoriesWrapper>
+    </Wrapper>
   );
 };
 

@@ -1,18 +1,18 @@
 import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 
-const AuthorImageWrapper = styled.div`
+const Profile = styled.div`
   width: 96px;
   height: 96px;
   overflow: hidden;
   border-radius: 50%;
 `;
 
-const AuthorImage = styled.img`
+const Image = styled.img`
   object-fit: cover;
 `;
 
-const AuthorInfo = styled.div`
+const Info = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -44,15 +44,15 @@ const ViewProfile = styled(Link)`
 const Author = ({ author, viewProfile }) => {
   return (
     <>
-      <AuthorImageWrapper>
-        <AuthorImage src={author.avatar_urls["96"]} />
-      </AuthorImageWrapper>
-      <AuthorInfo>
+      <Profile>
+        <Image src={author.avatar_urls["96"]} />
+      </Profile>
+      <Info>
         <AuthorName to={`/authors/${author.id}`}>{author.name}</AuthorName>
         {viewProfile && (
           <ViewProfile to={`/authors/${author.id}`}>View Profile</ViewProfile>
         )}
-      </AuthorInfo>
+      </Info>
     </>
   );
 };

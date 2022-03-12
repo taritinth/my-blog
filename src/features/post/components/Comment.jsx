@@ -2,7 +2,7 @@ import styled from "styled-components/macro";
 import parse from "html-react-parser";
 import { getDateText } from "../../../utils";
 
-const CommentWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 24px;
@@ -10,12 +10,12 @@ const CommentWrapper = styled.div`
   border-radius: 18px;
 `;
 
-const AuthorWrapper = styled.div`
+const Author = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const AuthorImageWrapper = styled.div`
+const Profile = styled.div`
   width: 48px;
   height: 48px;
   overflow: hidden;
@@ -23,11 +23,11 @@ const AuthorImageWrapper = styled.div`
   margin-right: 12px;
 `;
 
-const AuthorImage = styled.img`
+const Image = styled.img`
   object-fit: cover;
 `;
 
-const CommentInfo = styled.div`
+const Info = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -46,18 +46,18 @@ const Content = styled.div`
 
 const Comment = ({ authorName, authorAvatar, content, date }) => {
   return (
-    <CommentWrapper>
-      <AuthorWrapper>
-        <AuthorImageWrapper>
-          <AuthorImage src={authorAvatar} />
-        </AuthorImageWrapper>
-        <CommentInfo>
+    <Wrapper>
+      <Author>
+        <Profile>
+          <Image src={authorAvatar} />
+        </Profile>
+        <Info>
           <AuthorName>{authorName}</AuthorName>
           <CreateAt>{getDateText(date)}</CreateAt>
-        </CommentInfo>
-      </AuthorWrapper>
+        </Info>
+      </Author>
       <Content>{parse(content)}</Content>
-    </CommentWrapper>
+    </Wrapper>
   );
 };
 

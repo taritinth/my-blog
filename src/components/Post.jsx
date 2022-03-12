@@ -2,12 +2,12 @@ import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 import parse from "html-react-parser";
 
-const PostWrapper = styled.div`
+const Wrapper = styled.div`
   width: 100%;
   /* box-shadow: 0 4px 7px hsl(0 0% 30% / 0.08), 0 9px 14px hsl(0 0% 30% / 0.09); */
 `;
 
-const ImageWrapper = styled.div`
+const Thumbnail = styled.div`
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
@@ -19,7 +19,7 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const PostTitle = styled(Link)`
+const PostLink = styled(Link)`
   color: hsl(0deg 0% 0%);
   text-decoration: none;
   font-weight: 500;
@@ -27,7 +27,7 @@ const PostTitle = styled(Link)`
   cursor: pointer;
 `;
 
-const PostExcerpt = styled.div`
+const Excerpt = styled.div`
   color: gray;
   margin-top: 12px;
   a {
@@ -35,23 +35,23 @@ const PostExcerpt = styled.div`
   }
 `;
 
-const TitleWrapper = styled.div`
+const Title = styled.div`
   margin-top: 18px;
 `;
 
 const Post = ({ id, title, excerpt }) => {
   return (
-    <PostWrapper>
+    <Wrapper>
       <Link to={`/posts/${id}`}>
-        <ImageWrapper>
+        <Thumbnail>
           <Image src="https://fswd-wp.devnss.com/wp-content/uploads/2022/02/5a203da0-1347-3568-971c-4fc7a92f064c.png"></Image>
-        </ImageWrapper>
+        </Thumbnail>
       </Link>
-      <TitleWrapper>
-        <PostTitle to={`/posts/${id}`}>{title}</PostTitle>
-      </TitleWrapper>
-      <PostExcerpt>{parse(excerpt)}</PostExcerpt>
-    </PostWrapper>
+      <Title>
+        <PostLink to={`/posts/${id}`}>{title}</PostLink>
+      </Title>
+      <Excerpt>{parse(excerpt)}</Excerpt>
+    </Wrapper>
   );
 };
 

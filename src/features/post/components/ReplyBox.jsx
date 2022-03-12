@@ -1,6 +1,6 @@
 import styled from "styled-components/macro";
 
-const ReplyBoxWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 24px;
@@ -14,7 +14,7 @@ const LeaveReply = styled.h2`
   font-weight: 400;
 `;
 
-const CommentTextArea = styled.textarea`
+const Comment = styled.textarea`
   margin: 12px 0;
   padding: 12px;
   min-height: 150px;
@@ -32,7 +32,7 @@ const CommentTextArea = styled.textarea`
 //   background-color: hsl(0deg 0% 10% / 2.5%);
 // `;
 
-const SubmitComment = styled.button`
+const Submit = styled.button`
   margin-top: 24px;
   color: hsl(0deg 0% 100%);
   padding: 12px;
@@ -56,20 +56,17 @@ const ReplyBox = ({
   loading,
 }) => {
   return (
-    <ReplyBoxWrapper>
+    <Wrapper>
       <LeaveReply>Leave a reply</LeaveReply>
-      <CommentTextArea
+      <Comment
         value={commentValue}
         onChange={(e) => onCommentChange(e.target.value)}
         placeholder="Comment"
       />
-      <SubmitComment
-        onClick={onSubmitComment}
-        disabled={loading || !commentValue}
-      >
+      <Submit onClick={onSubmitComment} disabled={loading || !commentValue}>
         Post Comment
-      </SubmitComment>
-    </ReplyBoxWrapper>
+      </Submit>
+    </Wrapper>
   );
 };
 
