@@ -16,14 +16,14 @@
       "ecmaVersion": 12,
       "sourceType": "module"
   },
-  "plugins": [
-      "react"
-  ],
+  "plugins": ["react", "react-hooks"],
   "rules": {
       "react/react-in-jsx-scope": "off",
       "prettier/prettier": ["error",{
         "endOfLine": "auto"}
       ],
-      "react/prop-types": "off" // I will enable it later !
+      "react/prop-types": "off", // I will enable it later !
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
   }
 }
