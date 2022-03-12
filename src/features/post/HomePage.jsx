@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components/macro";
 import axios from "axios";
@@ -55,9 +55,10 @@ const HomePage = () => {
   const [category, setCategory] = useState(
     searchParams.get("categories") ?? ""
   );
+
   let activeParams = searchParams.getAll("categories");
 
-  const getPosts = useCallback(async () => {
+  const getPosts = async () => {
     const response = await axios.get(
       `https://fswd-wp.devnss.com/wp-json/wp/v2/posts?${
         category ? searchParams : ""
@@ -69,7 +70,7 @@ const HomePage = () => {
       }
     );
     setPosts(response.data);
-  }, [category, searchParams]);
+  };
 
   const getCategories = async () => {
     const response = await axios.get(
@@ -85,7 +86,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getPosts();
-  }, [category, getPosts]);
+  }, [category]);
 
   useEffect(() => {
     getCategories();

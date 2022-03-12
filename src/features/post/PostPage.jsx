@@ -1,6 +1,6 @@
 import axios from "axios";
 import parse from "html-react-parser";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components/macro";
 import Author from "../../components/Author";
@@ -87,7 +87,7 @@ const PostPage = () => {
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const getPost = useCallback(async () => {
+  const getPost = async () => {
     const response = await axios.get(
       `https://fswd-wp.devnss.com/wp-json/wp/v2/posts/${params.postId}`,
       {
@@ -100,9 +100,9 @@ const PostPage = () => {
     if (response.data?.status !== "404") {
       setPost(response.data);
     }
-  }, [params]);
+  };
 
-  const getAuthor = useCallback(async () => {
+  const getAuthor = async () => {
     if (post) {
       const response = await axios.get(
         `https://fswd-wp.devnss.com/wp-json/wp/v2/users/${post.author}`,
@@ -116,9 +116,9 @@ const PostPage = () => {
         setAuthor(response.data);
       }
     }
-  }, [post]);
+  };
 
-  const getComments = useCallback(async () => {
+  const getComments = async () => {
     if (post) {
       const response = await axios.get(
         `https://fswd-wp.devnss.com/wp-json/wp/v2/comments?post=${post.id}`,
@@ -132,32 +132,31 @@ const PostPage = () => {
         setComments(response.data);
       }
     }
-  }, [post]);
+  };
 
   const handleCommentChange = (value) => {
     setReply(value);
   };
 
   const handleSubmitComment = async () => {
+    if (!reply) return;
     try {
-      if (reply) {
-        setLoading(true);
-        const response = await axios.post(
-          `https://fswd-wp.devnss.com/wp-json/wp/v2/comments?post=${post.id}`,
-          {
-            content: reply,
+      setLoading(true);
+      const response = await axios.post(
+        `https://fswd-wp.devnss.com/wp-json/wp/v2/comments?post=${post.id}`,
+        {
+          content: reply,
+        },
+        {
+          headers: {
+            Authorization: "Basic ZnN3ZDpmc3dkLWNtcw==",
           },
-          {
-            headers: {
-              Authorization: "Basic ZnN3ZDpmc3dkLWNtcw==",
-            },
-          }
-        );
-
-        if (response.data?.status === "approved") {
-          getComments();
-          setReply("");
         }
+      );
+
+      if (response.data?.status === "approved") {
+        getComments();
+        setReply("");
       }
     } catch (err) {
       console.log(err);
@@ -168,12 +167,12 @@ const PostPage = () => {
 
   useEffect(() => {
     getPost();
-  }, [getPost]);
+  }, []);
 
   useEffect(() => {
     getAuthor();
     getComments();
-  }, [post, getAuthor, getComments]);
+  }, [post]);
 
   return (
     <Wrapper>
