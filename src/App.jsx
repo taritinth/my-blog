@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./features/post/HomePage";
-import PostPage from "./features/post/PostPage";
-import AuthorPage from "./features/author/AuthorPage";
+import HomePage from "./pages/post/HomePage";
+import PostPage from "./pages/post/PostPage";
+import AuthorPage from "./pages/author/AuthorPage";
 
 // const Navbar = styled.nav`
 //   background-color: white;
