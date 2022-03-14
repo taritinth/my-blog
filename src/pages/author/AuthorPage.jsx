@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components/macro";
 import Post from "../../components/Post";
@@ -69,7 +69,7 @@ const AuthorPage = () => {
   const [author, setAuthor] = useState(null);
   const [posts, setPosts] = useState([]);
 
-  const getAuthor = async () => {
+  const getAuthor = useCallback(async () => {
     const response = await axios.get(
       `https://fswd-wp.devnss.com/wp-json/wp/v2/users/${params.authorId}`,
       {
@@ -81,9 +81,9 @@ const AuthorPage = () => {
     if (response.data?.status !== "404") {
       setAuthor(response.data);
     }
-  };
+  }, [params]);
 
-  const getPosts = async () => {
+  const getPosts = useCallback(async () => {
     const response = await axios.get(
       `https://fswd-wp.devnss.com/wp-json/wp/v2/posts?author=${params.authorId}`,
       {
@@ -93,12 +93,12 @@ const AuthorPage = () => {
       }
     );
     setPosts(response.data);
-  };
+  }, [params]);
 
   useEffect(() => {
     getAuthor();
     getPosts();
-  }, []);
+  }, [getAuthor, getPosts]);
 
   return (
     <Wrapper>

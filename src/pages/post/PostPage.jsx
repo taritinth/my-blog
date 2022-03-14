@@ -1,6 +1,6 @@
 import axios from "axios";
 import parse from "html-react-parser";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components/macro";
 import Author from "../../components/Author";
@@ -87,7 +87,7 @@ const PostPage = () => {
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const getPost = async () => {
+  const getPost = useCallback(async () => {
     const response = await axios.get(
       `https://fswd-wp.devnss.com/wp-json/wp/v2/posts/${params.postId}`,
       {
@@ -100,9 +100,9 @@ const PostPage = () => {
     if (response.data?.status !== "404") {
       setPost(response.data);
     }
-  };
+  }, [params]);
 
-  const getAuthor = async () => {
+  const getAuthor = useCallback(async () => {
     if (!post) return;
     const response = await axios.get(
       `https://fswd-wp.devnss.com/wp-json/wp/v2/users/${post.author}`,
@@ -115,9 +115,9 @@ const PostPage = () => {
     if (response.data?.status !== "404") {
       setAuthor(response.data);
     }
-  };
+  }, [post]);
 
-  const getComments = async () => {
+  const getComments = useCallback(async () => {
     if (!post) return;
     const response = await axios.get(
       `https://fswd-wp.devnss.com/wp-json/wp/v2/comments?post=${post.id}`,
@@ -130,7 +130,7 @@ const PostPage = () => {
     if (response.data?.status !== "404") {
       setComments(response.data);
     }
-  };
+  }, [post]);
 
   const handleCommentChange = (value) => {
     setReply(value);
@@ -165,12 +165,12 @@ const PostPage = () => {
 
   useEffect(() => {
     getPost();
-  }, []);
+  }, [getPost]);
 
   useEffect(() => {
     getAuthor();
     getComments();
-  }, [post]);
+  }, [getAuthor, getComments]);
 
   return (
     <Wrapper>
