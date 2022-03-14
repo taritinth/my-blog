@@ -70,18 +70,16 @@ const AuthorPage = () => {
   const [posts, setPosts] = useState([]);
 
   const getAuthor = async () => {
-    if (params.authorId) {
-      const response = await axios.get(
-        `https://fswd-wp.devnss.com/wp-json/wp/v2/users/${params.authorId}`,
-        {
-          headers: {
-            Authorization: "Basic ZnN3ZDpmc3dkLWNtcw==",
-          },
-        }
-      );
-      if (response.data?.status !== "404") {
-        setAuthor(response.data);
+    const response = await axios.get(
+      `https://fswd-wp.devnss.com/wp-json/wp/v2/users/${params.authorId}`,
+      {
+        headers: {
+          Authorization: "Basic ZnN3ZDpmc3dkLWNtcw==",
+        },
       }
+    );
+    if (response.data?.status !== "404") {
+      setAuthor(response.data);
     }
   };
 

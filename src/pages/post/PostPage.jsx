@@ -103,34 +103,32 @@ const PostPage = () => {
   };
 
   const getAuthor = async () => {
-    if (post) {
-      const response = await axios.get(
-        `https://fswd-wp.devnss.com/wp-json/wp/v2/users/${post.author}`,
-        {
-          headers: {
-            Authorization: "Basic ZnN3ZDpmc3dkLWNtcw==",
-          },
-        }
-      );
-      if (response.data?.status !== "404") {
-        setAuthor(response.data);
+    if (!post) return;
+    const response = await axios.get(
+      `https://fswd-wp.devnss.com/wp-json/wp/v2/users/${post.author}`,
+      {
+        headers: {
+          Authorization: "Basic ZnN3ZDpmc3dkLWNtcw==",
+        },
       }
+    );
+    if (response.data?.status !== "404") {
+      setAuthor(response.data);
     }
   };
 
   const getComments = async () => {
-    if (post) {
-      const response = await axios.get(
-        `https://fswd-wp.devnss.com/wp-json/wp/v2/comments?post=${post.id}`,
-        {
-          headers: {
-            Authorization: "Basic ZnN3ZDpmc3dkLWNtcw==",
-          },
-        }
-      );
-      if (response.data?.status !== "404") {
-        setComments(response.data);
+    if (!post) return;
+    const response = await axios.get(
+      `https://fswd-wp.devnss.com/wp-json/wp/v2/comments?post=${post.id}`,
+      {
+        headers: {
+          Authorization: "Basic ZnN3ZDpmc3dkLWNtcw==",
+        },
       }
+    );
+    if (response.data?.status !== "404") {
+      setComments(response.data);
     }
   };
 
